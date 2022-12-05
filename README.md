@@ -53,7 +53,7 @@ FlaskProject/
     ```
 - Go into the project directory:
     ```
-    cd base_Flask_be
+    cd assignment_jsat
     ```
 - Run the application by the following command:
     ```
