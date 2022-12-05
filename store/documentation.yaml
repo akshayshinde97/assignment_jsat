@@ -1,0 +1,188 @@
+openapi: 3.0.3
+info:
+  title: base_backend
+  version: 1.0.0
+  contact: {}
+servers:
+  - url: http://127.0.0.1
+paths:
+  /api/managecategory:
+    get:
+      summary: managecategory-post
+      description: This is a get request for category api.
+      operationId: managecategoryPost
+      responses:
+        '200':
+          description: ''
+    post:
+      summary: manageitem-post
+      description: manageitem-post
+      operationId: manageitemPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                discription:
+                  type: string
+                  example: Clothes for Men, Women, Kid
+                name:
+                  type: string
+                  example: Clothes
+            example:
+              discription: Clothes for Men, Women, Kid
+              name: Clothes
+      responses:
+        '200':
+          description: ''
+    delete:
+      summary: managecategory-post
+      description: managecategory-post
+      operationId: managecategoryPost2
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '4'
+            example:
+              id: '4'
+      responses:
+        '200':
+          description: ''
+  /api/managestore:
+    get:
+      summary: manageitem-get
+      description: This is a get request for Item api.
+      operationId: manageitemGet
+      responses:
+        '200':
+          description: ''
+    post:
+      summary: managestore-post
+      description: managestore-post
+      operationId: managestorePost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: Indiranagar
+                contact:
+                  type: string
+                  example: '7020424345'
+                manager:
+                  type: string
+                  example: Vinay
+                name:
+                  type: string
+                  example: BLR_1
+            example:
+              address: Indiranagar
+              contact: '7020424345'
+              manager: Vinay
+              name: BLR_1
+      responses:
+        '200':
+          description: ''
+    delete:
+      summary: managestore-delete
+      description: managestore-delete
+      operationId: managestoreDelete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '2'
+            example:
+              id: '2'
+      responses:
+        '200':
+          description: ''
+  /api/managesupplier:
+    get:
+      summary: managesupplier-get
+      description: This is a get request for Supplier api.
+      operationId: managesupplierGet
+      responses:
+        '200':
+          description: ''
+    post:
+      summary: managesupplier-post
+      description: managesupplier-post
+      operationId: managesupplierPost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                address:
+                  type: string
+                  example: Indiranagar
+                contact:
+                  type: string
+                  example: '7020424345'
+                manager:
+                  type: string
+                  example: Vinay
+                name:
+                  type: string
+                  example: BLR_1
+            example:
+              address: Indiranagar
+              contact: '7020424345'
+              manager: Vinay
+              name: BLR_1
+      responses:
+        '200':
+          description: ''
+    delete:
+      summary: managesupplier-delete
+      description: managesupplier-delete
+      operationId: managesupplierDelete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '2'
+            example:
+              id: '2'
+      responses:
+        '200':
+          description: ''
+  /api/manageitem:
+    delete:
+      summary: manageitem-delete
+      description: manageitem-delete
+      operationId: manageitemDelete
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: '2'
+            example:
+              id: '2'
+      responses:
+        '200':
+          description: ''
+tags: []
