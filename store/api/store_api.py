@@ -3,12 +3,14 @@ from flask_restful import Resource, reqparse, request
 from flask import jsonify
 import datetime
 import json
-
+import logging
 
 # local imports
 from store.utils import response_json, build_cors_preflight_response
 from store.models import StoreMetadata
 from store.schemas import StoreMetadataSchema
+
+LOGGER = logging.getLogger("store_app")
 
 
 class StoreApi(Resource):
@@ -27,6 +29,7 @@ class StoreApi(Resource):
 
         except Exception as e:
             print(traceback.format_exc(), e)
+            LOGGER.exception('Exception in store get api', exc_info=True)
             return {
                 "error": "There was an error please try after sometime"}
 
@@ -59,7 +62,7 @@ class StoreApi(Resource):
                     True, {}, f"Successfully added {store_json['name']}")
             except Exception as e:
                 print(traceback.format_exc(), e)
-
+                LOGGER.exception('Exception in store post api', exc_info=True)
                 return {
                     "error": "There was an error please try after sometime"}
 
@@ -80,5 +83,6 @@ class StoreApi(Resource):
 
             except Exception as e:
                 print(traceback.format_exc(), e)
+                LOGGER.exception('Exception in store delete api', exc_info=True)
                 return {
                     "error": "There was an error please try after sometime"}

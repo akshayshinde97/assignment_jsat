@@ -1,14 +1,13 @@
 import traceback
 from flask_restful import Resource, reqparse, request
-from flask import jsonify
 import datetime
-import json
-
+import logging
 
 # local imports
-from store.utils import response_json, make_request, build_cors_preflight_response
+from store.utils import response_json, build_cors_preflight_response
 from store.models import Item, Supplier
-from store.schemas import ItemSchema
+
+LOGGER = logging.getLogger("store_app")
 
 
 class ItemsApi(Resource):
@@ -42,6 +41,7 @@ class ItemsApi(Resource):
 
         except Exception as e:
             print(traceback.format_exc(), e)
+            LOGGER.exception("Exception in item get api", exc_info=True)
             return {
                 "error": "There was an error please try after sometime"}
 
@@ -83,7 +83,7 @@ class ItemsApi(Resource):
                     True, {}, f"Successfully added {item_json['name']}")
             except Exception as e:
                 print(traceback.format_exc(), e)
-
+                LOGGER.exception("Exception in item post api", exc_info=True)
                 return {
                     "error": "There was an error please try after sometime"}
 
@@ -104,5 +104,6 @@ class ItemsApi(Resource):
 
             except Exception as e:
                 print(traceback.format_exc(), e)
+                LOGGER.exception("Exception in item delete api", exc_info=True)
                 return {
                     "error": "There was an error please try after sometime"}

@@ -5,8 +5,7 @@ Helper methods
 # third-party imports
 import requests
 from flask import make_response, jsonify
-import json
-import logging
+
 
 
 def response_json(success, data, message=None):

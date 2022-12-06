@@ -3,19 +3,20 @@ from flask_restful import Resource, reqparse, request
 from flask import jsonify
 import datetime
 import json
-
+import logging
 
 # local imports
-from store.utils import response_json, make_request, build_cors_preflight_response
+from store.utils import response_json, build_cors_preflight_response
 from store.models import Category
 from store.schemas import CategorySchema
+
+LOGGER = logging.getLogger("store_app")
 
 
 class CategoryApi(Resource):
     '''
     This class handles the get,post, delete api for Categories.
     '''
-
     def get(self, id=None):
         try:
             if id is None:
@@ -23,12 +24,14 @@ class CategoryApi(Resource):
                 catg_schema = CategorySchema(many=True)
                 return catg_schema.jsonify(catg)
             else:
+                LOGGER.info('got no id for category sending them all')
                 catg = Category.query.filter_by(id=id).first()
                 catg_schema = CategorySchema(many=True)
                 return catg_schema.jsonify(catg)
         except Exception as e:
             print(traceback.format_exc(), e)
             # jsonify({"error":"There was an error please contact the administrator"})
+            LOGGER.exception('Exception in get api category')
             return {
                 "error": "There was an error please try after sometime"}
 
@@ -43,7 +46,6 @@ class CategoryApi(Resource):
                 print(catg_query, type(catg_query))
                 # returns True or False
                 if catg_query:
-                    print(catg_query, type(catg_query))
                     return response_json(
                         False, {}, f"{catg_json['name']} catagory already exist")
                 catg_json['created_on'] = datetime.datetime.now()
@@ -57,7 +59,7 @@ class CategoryApi(Resource):
                     True, {}, f"Successfully added {catg_json['name']}")
             except Exception as e:
                 print(traceback.format_exc(), e)
-
+                LOGGER.exception('Exception in post api category')
                 return {
                     "error": "There was an error please try after sometime"}
 
@@ -79,5 +81,6 @@ class CategoryApi(Resource):
 
             except Exception as e:
                 print(traceback.format_exc(), e)
+                LOGGER.exception(f'Exception in delete api category')
                 return {
                     "error": "There was an error please try after sometime"}
