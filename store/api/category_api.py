@@ -3,7 +3,7 @@ from flask_restful import Resource, reqparse, request
 from flask import jsonify
 import datetime
 import json
-from marshmallow import ValidationError
+
 
 # local imports
 from store.utils import response_json, make_request, build_cors_preflight_response
@@ -16,7 +16,7 @@ class CategoryApi(Resource):
     This class handles the get,post, delete api for Categories.
     '''
 
-    def get(self,id=None):
+    def get(self, id=None):
         try:
             if id is None:
                 catg = Category.query.filter().all()
@@ -32,27 +32,29 @@ class CategoryApi(Resource):
             return {
                 "error": "There was an error please try after sometime"}
 
-
     def post(self):
         if request.method == "OPTIONS":  # CORS preflight
             return build_cors_preflight_response()
         else:
             try:
                 catg_json = request.get_json()
-                catg_query = Category.query.filter(Category.name==catg_json['name']).one_or_none()
+                catg_query = Category.query.filter(
+                    Category.name == catg_json['name']).one_or_none()
                 print(catg_query, type(catg_query))
-                    # returns True or False
+                # returns True or False
                 if catg_query:
                     print(catg_query, type(catg_query))
-                    return response_json(False, {}, f"{catg_json['name']} catagory already exist")
+                    return response_json(
+                        False, {}, f"{catg_json['name']} catagory already exist")
                 catg_json['created_on'] = datetime.datetime.now()
                 catg_json['updated_on'] = datetime.datetime.now()
-                category_obj=Category(
+                category_obj = Category(
                     name=catg_json['name'],
                     discription=catg_json['discription']
                 )
                 category_obj.save()
-                return response_json(True, {}, f"Successfully added {catg_json['name']}")
+                return response_json(
+                    True, {}, f"Successfully added {catg_json['name']}")
             except Exception as e:
                 print(traceback.format_exc(), e)
 
@@ -68,8 +70,10 @@ class CategoryApi(Resource):
                 existing_catg = Category.query.get(catg_json['id'])
                 if existing_catg:
                     Category.delete_from_db(existing_catg)
-                    # return make_response(f"{note_id} successfully deleted", 204)
-                    return response_json(True, {}, f"{catg_json['id']} successfully deleted")
+                    # return make_response(f"{note_id} successfully deleted",
+                    # 204)
+                    return response_json(
+                        True, {}, f"{catg_json['id']} successfully deleted")
                 else:
                     response_json(True, {}, f"{catg_json['id']}ID not found")
 

@@ -11,36 +11,34 @@ from store.models import Item, Supplier
 from store.schemas import ItemSchema
 
 
-
-
-
-
 class ItemsApi(Resource):
     '''
-    post api to update store info by admin only
-    get api to the get the store info admin only access.
+    post api to add new item
+    get api to get all items.
+    delete te respective item
     '''
 
     def get(self):
         try:
             item_data = Item.query.filter().all()
-            result ={}
+            result = {}
             # item_schema = ItemSchema(many=True)
 
-            for indx,item_obj in enumerate(item_data):
+            for indx, item_obj in enumerate(item_data):
                 obj = {}
                 obj["name"] = item_obj.name
                 obj["discription"] = item_obj.discription
-                obj["mrp"]=item_obj.mrp
-                obj["category_id"]=item_obj.category_id
-                obj["store_id"]=item_obj.store_id
-                obj["quantity"]=item_obj.quantity
+                obj["mrp"] = item_obj.mrp
+                obj["category_id"] = item_obj.category_id
+                obj["store_id"] = item_obj.store_id
+                obj["quantity"] = item_obj.quantity
                 inner_obj = {}
-                for indx,sup_obj in enumerate(item_obj.sup_id):
-                    inner_obj[indx]=sup_obj.name
-                obj["supplier_details"]=inner_obj
-                result[indx]=obj
-            return response_json(True, result, f'Succesfully fetched all the items')
+                for indx, sup_obj in enumerate(item_obj.sup_id):
+                    inner_obj[indx] = sup_obj.name
+                obj["supplier_details"] = inner_obj
+                result[indx] = obj
+            return response_json(
+                True, result, f'Succesfully fetched all the items')
 
         except Exception as e:
             print(traceback.format_exc(), e)
@@ -56,12 +54,15 @@ class ItemsApi(Resource):
                 item_obj = Item()
                 supplier_list = list()
                 # item_query = Item.query.filter(
-                #     Item.name == item_json['name'], Item.sup_id == item_json['supplier_id']).one_or_none()
+                # Item.name == item_json['name'], Item.sup_id ==
+                # item_json['supplier_id']).one_or_none()
 
                 # if item_query:
-                #     return response_json(False, {}, f"{item_json['name']} item already exists")
+                # return response_json(False, {}, f"{item_json['name']} item
+                # already exists")
                 for sup_id in item_json['supplier_id']:
-                    supplier_obj = Supplier.query.filter(Supplier.id==sup_id).first()
+                    supplier_obj = Supplier.query.filter(
+                        Supplier.id == sup_id).first()
                     print(supplier_obj, type(supplier_obj))
                     supplier_list.append(supplier_obj)
 
@@ -78,7 +79,8 @@ class ItemsApi(Resource):
                 )
 
                 item_obj.save()
-                return response_json(True, {}, f"Successfully added {item_json['name']}")
+                return response_json(
+                    True, {}, f"Successfully added {item_json['name']}")
             except Exception as e:
                 print(traceback.format_exc(), e)
 
@@ -94,9 +96,11 @@ class ItemsApi(Resource):
                 existing_store = Item.query.get(item_json['id'])
                 if existing_store:
                     Item.delete_from_db(existing_store)
-                    return response_json(True, {}, f"{item_json['id']} successfully deleted")
+                    return response_json(
+                        True, {}, f"{item_json['id']} successfully deleted")
                 else:
-                    response_json(True, {}, f"Store ID {item_json['id']} not found")
+                    response_json(
+                        True, {}, f"Store ID {item_json['id']} not found")
 
             except Exception as e:
                 print(traceback.format_exc(), e)

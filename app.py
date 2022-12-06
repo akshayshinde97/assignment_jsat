@@ -14,7 +14,6 @@ from store import create_app
 from store.db import *
 
 
-
 app = create_app(DevelopmentConfig)
 
 cors = CORS(app, resources={r"*": {"origins": "*"}})

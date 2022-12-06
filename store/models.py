@@ -122,7 +122,10 @@ class Item(db.Model):
     name = db.Column(db.String(length=100))
     discription = db.Column(db.String(length=1000))
     mrp = db.Column(db.Float(precision=3))
-    sup_id = db.relationship('Supplier', secondary=ItemSupplier, backref='items')
+    sup_id = db.relationship(
+        'Supplier',
+        secondary=ItemSupplier,
+        backref='items')
     quantity = db.Column(db.Integer)
     category_id = db.Column(
         db.Integer,
@@ -150,4 +153,3 @@ class Item(db.Model):
     def delete_from_db(self) -> None:
         db.session.delete(self)
         db.session.commit()
-

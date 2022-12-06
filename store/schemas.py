@@ -35,7 +35,6 @@ class ItemSchema(ma.Schema):
         )
 
 
-
 class CategorySchema(ma.Schema):
     '''
     Category Schema
@@ -48,7 +47,6 @@ class CategorySchema(ma.Schema):
             'created_on',
             'updated_on',
         )
-
 
 
 class SupplierSchema(ma.Schema):

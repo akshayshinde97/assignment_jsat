@@ -1,5 +1,4 @@
-import os
-from store.db import db, ma
+from store.db import db
 from flask import Flask
 from store.models import *
 from store import api
@@ -10,7 +9,6 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_object(test_config)
 
-
     # # initialize the debug tool bar
     # debug_toolbar.init_app(app)
 
@@ -18,11 +16,9 @@ def create_app(test_config=None):
     db.init_app(app)
     api.init_api(app)
 
-
     @app.route('/hello')
     def hello():
 
         return 'Hello, World!'
-
 
     return app

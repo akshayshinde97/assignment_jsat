@@ -6,15 +6,15 @@ import json
 
 
 # local imports
-from store.utils import response_json, make_request, build_cors_preflight_response
+from store.utils import response_json, build_cors_preflight_response
 from store.models import Supplier
 from store.schemas import SupplierSchema
 
 
 class SupplierApi(Resource):
     '''
-    post api to update store info by admin only
-    get api to the get the store info admin only access.
+    post api to update supplier info
+    get api to the get the supplier info.
     '''
 
     def get(self):
@@ -37,22 +37,26 @@ class SupplierApi(Resource):
             try:
                 supplier_json = request.get_json()
                 supplier_query = Supplier.query.filter(
-                    Supplier.name == supplier_json['name'], Supplier.address == supplier_json['address'], Supplier.contact == supplier_json['contact']).one_or_none()
+                    Supplier.name == supplier_json['name'],
+                    Supplier.address == supplier_json['address'],
+                    Supplier.contact == supplier_json['contact']).one_or_none()
 
                 if supplier_query:
-                    return response_json(False, {}, f"{supplier_json['name']} Supplier already exists")
+                    return response_json(
+                        False, {}, f"{supplier_json['name']} already exists")
 
                 supplier_obj = Supplier(
                     name=supplier_json['name'],
                     address=supplier_json['address'],
                     contact=supplier_json['contact'],
-                    is_active= True,
+                    is_active=True,
                     created_on=datetime.datetime.now(),
                     updated_on=datetime.datetime.now()
                 )
 
                 supplier_obj.save()
-                return response_json(True, {}, f"Successfully added {supplier_json['name']}")
+                return response_json(
+                    True, {}, f"Successfully added {supplier_json['name']}")
             except Exception as e:
                 print(traceback.format_exc(), e)
 
@@ -68,12 +72,13 @@ class SupplierApi(Resource):
                 existing_store = Supplier.query.get(supplier_json['id'])
                 if existing_store:
                     Supplier.delete_from_db(existing_store)
-                    return response_json(True, {}, f"{supplier_json['id']} successfully deleted")
+                    return response_json(
+                        True, {}, f"{supplier_json['id']} successfully deleted")
                 else:
-                    return response_json(True, {}, f" supplier {supplier_json['id']} ID not found")
+                    return response_json(
+                        True, {}, f" supplier id {supplier_json['id']} not found")
 
             except Exception as e:
                 print(traceback.format_exc(), e)
                 return {
                     "error": "There was an error please try after sometime"}
-

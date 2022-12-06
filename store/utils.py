@@ -8,6 +8,7 @@ from flask import make_response, jsonify
 import json
 import logging
 
+
 def response_json(success, data, message=None):
     """
     Helper method that converts the given data in json format
@@ -22,6 +23,7 @@ def response_json(success, data, message=None):
         "message": message,
     }
     return data
+
 
 def send_response(data, code):
     response = make_response(
